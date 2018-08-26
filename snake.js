@@ -8,7 +8,7 @@ div.style.width = width;
 const initLen = 12;
 const initTop = "150px";
 const initLeft = 400;
-
+let pause = false;
 
 let prevKey = "ArrowRight";
 function init() {
@@ -40,6 +40,8 @@ function limit(val, maxValue) {
 
 
 function _update(){
+    if(pause) return;
+
     const h = arr[0];
     let l = h.style.left.split("px")[0] * 1;
     let t = h.style.top.split("px")[0] * 1;
@@ -100,11 +102,16 @@ function checkCollision(e1, e2) {
 const _handleKey = function (e) {
 
     console.log(e);
-    if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].indexOf(e.key) === -1)
-        return;
-    //if same direction, can't turn backwards. also make them progress automatically one by one
-
     const k = e.key;
+    if(k === "p"){
+        pause = !pause;
+        st.innerText = pause ? "paused" : "score";  
+    }
+    if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].indexOf(e.key) === -1) {
+        return;
+    }
+
+    //if same direction, can't turn backwards. also make them progress automatically one by one
     if (k === "ArrowLeft") {
         if (prevKey === "ArrowRight") return;
         prevKey = k;

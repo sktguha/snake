@@ -1,0 +1,14 @@
+so for food 
+generate food ? and then render
+show food at random location unless it intersects with existing arr ones
+
+now check for head intersection. 
+
+generateFood(); //at start and store the div in global
+
+if (interesect){
+ var oldDv = fdiv;
+ generateFood();
+ 
+}
+  
