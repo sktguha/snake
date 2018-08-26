@@ -2,7 +2,10 @@ const arr = [];
 const dim = 30;
 const width = window.innerWidth;
 const height = window.innerHeight;
-const initLen = 5;
+const initLen = 12;
+const initTop = "150px";
+const initLeft = 400;
+
 
 let prevKey = "ArrowRight";
 function init() {
@@ -11,15 +14,16 @@ function init() {
         div.style.width = dim + "px";
         div.style.height = dim + "px";
         div.style.position = "absolute";
-        div.style.top = "300px";
-        div.style.left = (200 + i * dim) + "px";
+        div.style.top = initTop;
+        div.style.left = (initLeft - (i * dim)) + "px";
         // div.innerText = "e";
         div.style.background = "red";
         div.style.border = "2px solid black";
         document.body.appendChild(div);
         arr.push(div);
     }
-    uT();uT();uT();uT();
+    // uT();uT();uT();uT();
+    arr[0].style.background = "black";
     // setInterval(uT, 1000);
 }
 
@@ -39,8 +43,9 @@ function uT(){
     const h = arr[0];
     let l = h.style.left.split("px")[0] * 1;
     let t = h.style.top.split("px")[0] * 1;
-    arr[1].style.top = h.style.top;
-    arr[1].style.left = h.style.left;
+    let oldTop = h.style.top;
+    let oldleft = h.style.left;
+
     if(prevKey === "ArrowLeft"){
         l -= dim;
     } else if(prevKey === "ArrowRight"){
@@ -59,12 +64,14 @@ function uT(){
     // }
     h.style.left = l + "px";
     h.style.top = t + "px";
-    for(let i= arr.length-1; i>0; i--){
+    for(let i= arr.length-1; i>1; i--){
         const p = arr[i - 1];
         const c = arr[i];
         c.style.left = p.style.left;
         c.style.top = p.style.top;
     }
+    arr[1].style.top = oldTop;
+    arr[1].style.left = oldleft;
 }
 
 const _handleKey = function (e) {
