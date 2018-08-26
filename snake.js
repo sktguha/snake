@@ -14,6 +14,7 @@ let paused = true;
 
 let prevKey = "ArrowRight";
 let fdiv;
+let audio = new Audio('food.wav');
 
 function createSnakeSeg() {
     const div = document.createElement("div");
@@ -101,6 +102,11 @@ function _update(){
     arr[1].style.left = oldleft;
 
     _handleFoodColl(h);
+    openMouth(h);
+}
+
+function openMouth(h) {
+    //TODO
 }
 
 function _handleFoodColl(h) {
@@ -109,6 +115,7 @@ function _handleFoodColl(h) {
         fdiv.style.outline = "2px solid black";
         fdiv.style.background = "red";
         arr.push(fdiv);
+        audio.play();
         genFood();
     }
 }
