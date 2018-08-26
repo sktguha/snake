@@ -26,11 +26,8 @@ function init() {
         arr.push(div);
     }
     arr[0].style.background = "black";
-    // setInterval(uT, 1000);
+    setInterval(update, 200);
 }
-
-init();
-
 
 function limit(val, maxValue) {
     if (val > maxValue) {
@@ -41,7 +38,8 @@ function limit(val, maxValue) {
     return val;
 }
 
-function uT(){
+
+function _update(){
     const h = arr[0];
     let l = h.style.left.split("px")[0] * 1;
     let t = h.style.top.split("px")[0] * 1;
@@ -80,6 +78,8 @@ function uT(){
     arr[1].style.left = oldleft;
 }
 
+let update = _.throttle(_update, 50);
+
 function checkColl(h) {
     return _.some(_.tail(arr), function (e) {
         return Math.abs(parseInt(e.style.left) - parseInt(h.style.left)) < dim/2 &&
@@ -108,21 +108,22 @@ const _handleKey = function (e) {
     if (k === "ArrowLeft") {
         if (prevKey === "ArrowRight") return;
         prevKey = k;
-        uT();
+        update();
     } else if (k === "ArrowRight") {
         if (prevKey === "ArrowLeft") return;
         prevKey = k;
-        uT();
+        update();
     } else if (k === "ArrowUp") {
         if (prevKey === "ArrowDown") return;
         prevKey = k;
-        uT();
+        update();
     } else if (k === "ArrowDown") {
         if (prevKey === "ArrowUp") return;
         prevKey = k;
-        uT();
+        update();
     }
 
 };
 const handleKey = _.throttle(_handleKey, 30);
 document.onkeydown = handleKey;
+init();
