@@ -181,6 +181,6 @@ const _handleKey = function (e) {
     }
 
 };
-const handleKey = _.throttle(_handleKey, 30);
-document.onkeydown = handleKey;
+// const handleKey = _.throttle(_handleKey, 30);
+document.onkeydown = _handleKey;
 init();
