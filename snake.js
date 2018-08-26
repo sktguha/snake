@@ -52,6 +52,7 @@ function genFood(){
     let div = createSnakeSeg();
     div.style.top = ((_.random(0, hm -1, false)) * dim) + "px";
     div.style.left = ((_.random(0, wm-1, false)) * dim) + "px";
+    div.style.background = "green";
     if(checkColl(div, arr)){
         return genFood();
     }
@@ -106,6 +107,7 @@ function _handleFoodColl(h) {
     if (checkColl(h, [fdiv])) {
         // fdiv.style.zoom = "1.2";
         fdiv.style.outline = "2px solid black";
+        fdiv.style.background = "red";
         arr.push(fdiv);
         genFood();
     }
@@ -141,7 +143,7 @@ var startGame = _.once(function () {
 });
 
 const _handleKey = function (e) {
-    startGame()
+    startGame();
     console.log(e);
     const k = e.key;
     if(k === "p"){
