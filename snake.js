@@ -1,31 +1,41 @@
 const arr = [];
 const dim = 30;
-const width = dim * 40;
-const height = dim * 15;//window.innerHeight;
+let wm = 40;
+let hm = 15;
+const width = dim * wm;
+const height = dim * hm;//window.innerHeight;
 const div = document.getElementById("bd");
 div.style.height = height;
 div.style.width = width;
 const initLen = 12;
 const initTop = "150px";
 const initLeft = 400;
-let pause = false;
+let paused = true;
 
 let prevKey = "ArrowRight";
+let fdiv;
+
+function createSnakeSeg() {
+    const div = document.createElement("div");
+    div.style.width = dim + "px";
+    div.style.height = dim + "px";
+    div.style.position = "absolute";
+    // div.innerText = "e";
+    div.style.background = "red";
+    return div;
+}
+
 function init() {
     for (let i = 0; i < initLen; i++) {
-        const div = document.createElement("div");
-        div.style.width = dim + "px";
-        div.style.height = dim + "px";
-        div.style.position = "absolute";
+        const div = createSnakeSeg();
         div.style.top = initTop;
         div.style.left = (initLeft - (i * dim)) + "px";
-        // div.innerText = "e";
-        div.style.background = "red";
         div.style.outline = "2px solid black";
         document.body.appendChild(div);
         arr.push(div);
     }
     arr[0].style.background = "black";
+    genFood();
     setInterval(update, 200);
 }
 
@@ -38,9 +48,19 @@ function limit(val, maxValue) {
     return val;
 }
 
+function genFood(){
+    let div = createSnakeSeg();
+    div.style.top = ((_.random(0, hm -1, false)) * dim) + "px";
+    div.style.left = ((_.random(0, wm-1, false)) * dim) + "px";
+    if(checkColl(div, arr)){
+        return genFood();
+    }
+    document.body.appendChild(div);
+    fdiv = div;
+}
 
 function _update(){
-    if(pause) return;
+    if(paused) return;
 
     const h = arr[0];
     let l = h.style.left.split("px")[0] * 1;
@@ -66,7 +86,7 @@ function _update(){
     h.style.left = l + "px";
     h.style.top = t + "px";
     // }
-    if(checkColl(h)){
+    if(checkColl(h, _.tail(arr))){
         // console.log(("over"));;
         alert("over");
     }
@@ -78,17 +98,34 @@ function _update(){
     }
     arr[1].style.top = oldTop;
     arr[1].style.left = oldleft;
+
+    _handleFoodColl(h);
+}
+
+function _handleFoodColl(h) {
+    if (checkColl(h, [fdiv])) {
+        // fdiv.style.zoom = "1.2";
+        fdiv.style.outline = "2px solid black";
+        arr.push(fdiv);
+        genFood();
+    }
 }
 
 let update = _.throttle(_update, 50);
 
-function checkColl(h) {
-    return _.some(_.tail(arr), function (e) {
+function checkColl(h, elems) {
+    return _.some(elems, function (e) {
         return Math.abs(parseInt(e.style.left) - parseInt(h.style.left)) < dim/2 &&
             Math.abs(parseInt(e.style.top)- parseInt(h.style.top)) < dim/2
     })
 }
 
+/**
+ * unused for now
+ * @param e1
+ * @param e2
+ * @returns {boolean}
+ */
 function checkCollision(e1, e2) {
     const rect1 = e1.getBoundingClientRect();
     const rect2 = e2.getBoundingClientRect();
@@ -99,13 +136,17 @@ function checkCollision(e1, e2) {
     return overlap;
 }
 
-const _handleKey = function (e) {
+var startGame = _.once(function () {
+    paused = false;
+});
 
+const _handleKey = function (e) {
+    startGame()
     console.log(e);
     const k = e.key;
     if(k === "p"){
-        pause = !pause;
-        st.innerText = pause ? "paused" : "score";  
+        paused = !paused;
+        st.innerText = paused ? "paused" : "score";
     }
     if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].indexOf(e.key) === -1) {
         return;
