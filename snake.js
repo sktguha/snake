@@ -1,7 +1,10 @@
 const arr = [];
 const dim = 30;
-const width = window.innerWidth;
-const height = window.innerHeight;
+const width = dim * 40;
+const height = dim * 15;//window.innerHeight;
+const div = document.getElementById("bd");
+div.style.height = height;
+div.style.width = width;
 const initLen = 12;
 const initTop = "150px";
 const initLeft = 400;
@@ -18,11 +21,10 @@ function init() {
         div.style.left = (initLeft - (i * dim)) + "px";
         // div.innerText = "e";
         div.style.background = "red";
-        div.style.border = "2px solid black";
+        div.style.outline = "2px solid black";
         document.body.appendChild(div);
         arr.push(div);
     }
-    // uT();uT();uT();uT();
     arr[0].style.background = "black";
     // setInterval(uT, 1000);
 }
@@ -61,9 +63,13 @@ function uT(){
     // if(l< 0 || l > width || t< 0 || t > height) {
     //     // alert("game over");
     //     // location.reload();
-    // }
     h.style.left = l + "px";
     h.style.top = t + "px";
+    // }
+    if(checkColl(h)){
+        // console.log(("over"));;
+        alert("over");
+    }
     for(let i= arr.length-1; i>1; i--){
         const p = arr[i - 1];
         const c = arr[i];
@@ -72,6 +78,23 @@ function uT(){
     }
     arr[1].style.top = oldTop;
     arr[1].style.left = oldleft;
+}
+
+function checkColl(h) {
+    return _.some(_.tail(arr), function (e) {
+        return Math.abs(parseInt(e.style.left) - parseInt(h.style.left)) < dim/2 &&
+            Math.abs(parseInt(e.style.top)- parseInt(h.style.top)) < dim/2
+    })
+}
+
+function checkCollision(e1, e2) {
+    const rect1 = e1.getBoundingClientRect();
+    const rect2 = e2.getBoundingClientRect();
+    const overlap = !(rect1.right < rect2.left ||
+        rect1.left > rect2.right ||
+        rect1.bottom < rect2.top ||
+        rect1.top > rect2.bottom);
+    return overlap;
 }
 
 const _handleKey = function (e) {
@@ -101,5 +124,5 @@ const _handleKey = function (e) {
     }
 
 };
-const handleKey = _.throttle(_handleKey, 150);
+const handleKey = _.throttle(_handleKey, 30);
 document.onkeydown = handleKey;
