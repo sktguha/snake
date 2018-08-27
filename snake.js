@@ -8,8 +8,8 @@ const div = document.getElementById("bd");
 div.style.height = height;
 div.style.width = width;
 const initLen = 12;
-const initTop = "150px";
-const initLeft = 400;
+const initTop = (dim*5)+"px";
+const initLeft = (dim*13) + "px";
 let paused = true;
 
 let prevKey = "ArrowRight";
