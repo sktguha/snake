@@ -1,7 +1,7 @@
 const arr = [];
-const dim = 30;
-let wm = 40;
-let hm = 15;
+const dim = 15;
+let wm = 80;
+let hm = 30;
 const width = dim * wm;
 const height = dim * hm;//window.innerHeight;
 const div = document.getElementById("bd");
@@ -22,7 +22,7 @@ function createSnakeSeg() {
     div.style.height = dim + "px";
     div.style.position = "absolute";
     // div.innerText = "e";
-    div.style.background = "red";
+    div.style.background = "black";
     return div;
 }
 
@@ -31,7 +31,7 @@ function init() {
         const div = createSnakeSeg();
         div.style.top = initTop;
         div.style.left = (initLeft - (i * dim)) + "px";
-        div.style.outline = "2px solid black";
+        //div.style.outline = "2px solid black";
         document.body.appendChild(div);
         arr.push(div);
     }
@@ -112,8 +112,8 @@ function openMouth(h) {
 function _handleFoodColl(h) {
     if (checkColl(h, [fdiv])) {
         // fdiv.style.zoom = "1.2";
-        fdiv.style.outline = "2px solid black";
-        fdiv.style.background = "red";
+        //fdiv.style.outline = "2px solid black";
+        fdiv.style.background = "black";
         arr.push(fdiv);
         audio.play();
         genFood();
