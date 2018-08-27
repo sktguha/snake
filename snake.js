@@ -9,7 +9,7 @@ div.style.height = height;
 div.style.width = width;
 const initLen = 12;
 const initTop = (dim*5)+"px";
-const initLeft = (dim*13) + "px";
+const initLeft = (dim*13);
 let paused = true;
 
 let prevKey = "ArrowRight";

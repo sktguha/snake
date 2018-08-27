@@ -9,6 +9,7 @@ generateFood(); //at start and store the div in global
 if (interesect){
  var oldDv = fdiv;
  generateFood();
- 
+ oldDv.style.zoom = 1.2;
+ //now also wait for last div to cross the food, then append the last div to the arr
 }
   
